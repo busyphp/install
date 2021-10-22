@@ -1,0 +1,34 @@
+{
+	"name"        : "busyphp/install",
+	"type"        : "library",
+	"description" : "",
+	"authors"     : [
+		{
+			"name"  : "busy^life",
+			"email" : "busy.life@qq.com"
+		}
+	],
+	"license"     : "Creative Commons",
+	"require"     : {
+		"php"             : ">=7.1.0",
+		"busyphp/busyphp" : "^6.0"
+	},
+	"autoload"    : {
+		"psr-4" : {
+			"BusyPHP\\install\\" : "src"
+		}
+	},
+	"config"      : {
+		"preferred-install" : "dist"
+	},
+	"extra"       : {
+		"busyphp" : {
+			"services"    : [
+				"BusyPHP\\install\\Service"
+			],
+			"initializes" : [
+				"BusyPHP\\install\\Initialize"
+			]
+		}
+	}
+}
