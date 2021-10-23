@@ -2,9 +2,9 @@
 
 namespace BusyPHP\install;
 
+use BusyPHP\helper\FileHelper;
 use BusyPHP\install\app\controller\InstallController;
 use BusyPHP\Service as BaseService;
-use think\Response;
 use think\Route;
 
 /**
@@ -43,30 +43,11 @@ class Service extends \think\Service
             
             
             // 资源路由
-            $route->rule('assets/install/<path>', function($path) {
+            $route->rule('assets/plugins/install/<path>', function($path) {
                 $parse = parse_url($path);
                 $path  = $parse['path'] ?? '';
-                $file  = __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'static' . DIRECTORY_SEPARATOR . ltrim($path, '/');
-                if (!$path || !is_file($file)) {
-                    return Response::create('资源不存在', 'html', 200)->contentType('text/plain');
-                }
                 
-                // 判断类型
-                switch (strtolower((string) pathinfo($path, PATHINFO_EXTENSION))) {
-                    case 'css':
-                        $mimeType = 'text/css';
-                    break;
-                    case 'js':
-                        $mimeType = 'application/x-javascript';
-                    break;
-                    case 'png':
-                        $mimeType = 'image/png';
-                    break;
-                    default:
-                        $mimeType = 'application/octet-stream';
-                }
-                
-                return Response::create(file_get_contents($file), 'html', 200)->contentType($mimeType);
+                return FileHelper::responseAssets(__DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'static' . DIRECTORY_SEPARATOR . ltrim($path, '/'));
             })->pattern(['path' => '.*']);
         });
     }
