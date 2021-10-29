@@ -147,20 +147,28 @@ CREATE TABLE `#__table__#system_logs` (
 
 DROP TABLE IF EXISTS `#__table__#system_menu`;
 CREATE TABLE `#__table__#system_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
-  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '路由地址',
-  `parent_path` varchar(255) NOT NULL DEFAULT '' COMMENT '上级路由',
-  `top_path` varchar(255) NOT NULL DEFAULT '' COMMENT '顶级菜单默认访问路由地址',
-  `params` varchar(255) NOT NULL DEFAULT '' COMMENT '附加参数',
-  `icon` varchar(128) NOT NULL DEFAULT '' COMMENT '图标',
-  `target` varchar(10) NOT NULL DEFAULT '' COMMENT '打开方式',
-  `hide` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏',
-  `disabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用',
-  `system` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否系统菜单',
-  `sort` smallint(6) NOT NULL DEFAULT '50' COMMENT '自定义排序',
-  PRIMARY KEY (`id`)
+    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
+    `path` varchar(255) NOT NULL DEFAULT '' COMMENT '路由地址',
+    `parent_path` varchar(255) NOT NULL DEFAULT '' COMMENT '上级路由',
+    `top_path` varchar(255) NOT NULL DEFAULT '' COMMENT '顶级菜单默认访问路由地址',
+    `params` varchar(255) NOT NULL DEFAULT '' COMMENT '附加参数',
+    `icon` varchar(128) NOT NULL DEFAULT '' COMMENT '图标',
+    `target` varchar(10) NOT NULL DEFAULT '' COMMENT '打开方式',
+    `hide` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏',
+    `disabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用',
+    `system` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否系统菜单',
+    `sort` smallint(6) NOT NULL DEFAULT '50' COMMENT '自定义排序',
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单管理';
+
+
+DROP TABLE IF EXISTS `#__table__#system_lock`;
+CREATE TABLE `#__table__#system_lock` (
+    `id` varchar(32) NOT NULL COMMENT 'ID',
+    `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统锁表';
 
 
 INSERT INTO `#__table__#admin_group` (`parent_id`, `name`, `default_menu_id`, `system`, `rule`, `status`, `sort`) VALUES
