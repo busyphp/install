@@ -126,6 +126,7 @@ CREATE TABLE `#__table__#system_logs` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '操作时间',
     `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '操作类型',
+    `level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '日志级别',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '操作名称',
     `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '操作用户ID',
     `username` varchar(60) NOT NULL DEFAULT '' COMMENT '操作用户名',
@@ -141,7 +142,8 @@ CREATE TABLE `#__table__#system_logs` (
      PRIMARY KEY (`id`),
      KEY `type` (`type`),
      KEY `class_value` (`class_value`),
-     KEY `class_type` (`class_type`)
+     KEY `class_type` (`class_type`),
+     KEY `level` (`level`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='操作记录表';
 
 
