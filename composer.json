@@ -1,7 +1,7 @@
 {
 	"name"        : "busyphp/install",
 	"type"        : "library",
-	"description" : "BusyPHP数据库安装程序，数据库安装成功后可通过 Composer 命令删除",
+	"description" : "用来安装BusyPHP依赖的基本数据的安装程序，安装成功后可通过 Composer 命令删除",
 	"homepage"    : "http://www.harter.cn/?form=BusyPHP&plugin=busyphp/install",
 	"keywords"    : [
 		"BusyPHP安装器",
@@ -29,7 +29,7 @@
 	"extra"       : {
 		"busyphp" : {
 			"manager"     : {
-				"name" : "BusyPHP数据库安装程序"
+				"name" : "基本数据安装器"
 			},
 			"services"    : [
 				"BusyPHP\\install\\Service"
