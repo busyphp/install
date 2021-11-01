@@ -173,6 +173,20 @@ CREATE TABLE `#__table__#system_lock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统锁表';
 
 
+DROP TABLE IF EXISTS `#__table__#system_plugin`;
+CREATE TABLE `#__table__#system_plugin` (
+    `id` varchar(32) NOT NULL COMMENT '包名HASH',
+    `package` varchar(255) NOT NULL DEFAULT '' COMMENT '包名',
+    `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+    `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
+    `install` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已安装',
+    `panel` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否在主页展示',
+    `setting` text NOT NULL COMMENT '设置参数',
+    `sort` int(11) NOT NULL DEFAULT '50' COMMENT '排序',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+
+
 INSERT INTO `#__table__#admin_group` (`parent_id`, `name`, `default_menu_id`, `system`, `rule`, `status`, `sort`) VALUES
 (0, '超级管理员', 87, 1, '', 1, 0);
 
@@ -263,6 +277,7 @@ INSERT INTO  `#__table__#system_menu` (`name`, `path`, `parent_path`, `top_path`
 ('插件管理', 'system_plugin/index', '#developer', '', '', 'fa fa-plug', '', 0, 0, 1, 4),
 ('安装插件', 'system_plugin/install', 'system_plugin/index', '', '', '', '', 1, 0, 1, 1),
 ('卸载插件', 'system_plugin/uninstall', 'system_plugin/index', '', '', '', '', 1, 0, 1, 2),
+('设置插件', 'system_plugin/setting', 'system_plugin/index', '', '', '', '', 1, 0, 1, 50),
 ('系统', '#system', '', '', '', 'glyphicon glyphicon-cog', '', 0, 0, 0, 1),
 ('管理员管理', 'system_user/index', '#system_user', '', '', 'bicon bicon-user-manager', '', 0, 0, 0, 1),
 ('添加管理员', 'system_user/add', 'system_user/index', '', '', '', '', 1, 0, 0, 1),
