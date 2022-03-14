@@ -15,8 +15,7 @@
 	],
 	"license"     : "CC-BY-NC-4.0",
 	"require"     : {
-		"php"             : ">=7.1.0",
-		"busyphp/busyphp" : "^6.0"
+		"busyphp/busyphp" : "dev-busyphp6"
 	},
 	"autoload"    : {
 		"psr-4" : {
@@ -27,7 +26,10 @@
 		"preferred-install" : "dist"
 	},
 	"extra"       : {
-		"busyphp" : {
+		"branch-alias" : {
+			"dev-master" : "1.0.x-dev"
+		},
+		"busyphp"      : {
 			"manager"     : {
 				"name" : "基本数据安装器"
 			},
