@@ -31,7 +31,7 @@
 		},
 		"busyphp"      : {
 			"manager"     : {
-				"name" : "基本数据安装器"
+				"name" : "BusyPHP安装程序"
 			},
 			"services"    : [
 				"BusyPHP\\install\\Service"
