@@ -15,7 +15,7 @@
 	],
 	"license"     : "CC-BY-NC-4.0",
 	"require"     : {
-		"busyphp/busyphp" : "^6.0"
+		"busyphp/busyphp" : "^6.0.7"
 	},
 	"autoload"    : {
 		"psr-4" : {
