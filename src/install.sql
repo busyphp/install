@@ -130,7 +130,7 @@ CREATE TABLE `#__table__#system_logs` (
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '操作名称',
     `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '操作用户ID',
     `username` varchar(60) NOT NULL DEFAULT '' COMMENT '操作用户名',
-    `class_type` int(11) NOT NULL DEFAULT '0' COMMENT '日志分类',
+    `class_type` varchar(32) NOT NULL DEFAULT '' COMMENT '日志分类',
     `class_value` varchar(32) NOT NULL DEFAULT '' COMMENT '日志分类业务参数',
     `client` varchar(32) NOT NULL DEFAULT '' COMMENT '操作客户端',
     `ip` varchar(40) NOT NULL DEFAULT '' COMMENT '客户端IP',
