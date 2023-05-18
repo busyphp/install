@@ -1,8 +1,8 @@
 <?php
+declare(strict_types = 1);
 
 namespace BusyPHP\install;
 
-use BusyPHP\helper\FileHelper;
 use BusyPHP\install\app\controller\InstallController;
 use BusyPHP\Service as BaseService;
 use think\Route;
@@ -23,7 +23,7 @@ class Service extends \think\Service
                 return;
             }
             
-            $config = include $configFile;
+            $config = include_once $configFile;
             $prefix = $config['prefix'] ?? '';
             if (!$prefix) {
                 return;
@@ -31,24 +31,25 @@ class Service extends \think\Service
             
             
             // 控制器路由
-            $route->group(function() use ($route, $prefix) {
-                $actionPattern = '<' . BaseService::ROUTE_VAR_ACTION . '>';
-                $route->rule("{$prefix}/install/{$actionPattern}", InstallController::class . "@{$actionPattern}");
-                $route->rule("{$prefix}/install", InstallController::class . '@index')
-                    ->append([BaseService::ROUTE_VAR_ACTION => 'index']);
-            })->append([
-                BaseService::ROUTE_VAR_TYPE    => 'plugin',
-                BaseService::ROUTE_VAR_CONTROL => 'Install'
-            ]);
-            
-            
-            // 资源路由
-            $route->rule('assets/plugins/install/<path>', function($path) {
-                $parse = parse_url($path);
-                $path  = $parse['path'] ?? '';
-                
-                return FileHelper::responseAssets(__DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'static' . DIRECTORY_SEPARATOR . ltrim($path, '/'));
-            })->pattern(['path' => '.*']);
+            $route
+                ->group(function() use ($route, $prefix) {
+                    $action = sprintf("<%s>", BaseService::ROUTE_VAR_ACTION);
+                    $route
+                        ->rule(
+                            sprintf("%s/install/%s", $prefix, $action),
+                            sprintf("%s@%s", InstallController::class, $action)
+                        );
+                    $route
+                        ->rule(
+                            sprintf("%s/install", $prefix),
+                            sprintf("%s@index", InstallController::class)
+                        )
+                        ->append([BaseService::ROUTE_VAR_ACTION => 'index']);
+                })
+                ->append([
+                    BaseService::ROUTE_VAR_TYPE    => BaseService::ROUTE_TYPE_PLUGIN,
+                    BaseService::ROUTE_VAR_CONTROL => 'Install'
+                ]);
         });
     }
 }

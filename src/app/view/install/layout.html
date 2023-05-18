@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>安装系统 - {$title}V{$version_name}</title>
-    <link rel="stylesheet" href="__ASSETS__plugins/install/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__ASSETS__system/js/bootstrap/css/bootstrap.min.css">
     <style>
         .pager li.previous a {margin-right: 10px;}
         .header a {color: #FFF;}
@@ -24,9 +24,9 @@
     <div class="header" style="margin:20px auto;">
         <ul class="nav nav-pills pull-right" role="tablist">
             <li role="presentation" class="active"><a href="javascript:void(0);">安装{$title}V{$version_name}</a></li>
-            <li role="presentation"><a target="_blank" href="http://www.harter.cn/">山西函拓科技有限公司</a></li>
+            <li role="presentation"><a target="_blank" href="//www.harter.cn/">山西函拓科技有限公司</a></li>
         </ul>
-        <img src="__ASSETS__plugins/install/logo.png"/>
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJoAAAAuCAYAAADQpAB0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAHWGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0MzUyLCAyMDIwLzAxLzMwLTE1OjUwOjM4ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyZjE5MmNlMi1iYzEzLWRhNDEtYmVhZC1lNGE1NWExY2VkNzQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RkQzNjMxQ0FEMjcyMTFFOEIzMDY5REY3MUZFQTI4NTAiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ZTNkM2YzYmMtM2U3OS00NjJhLWIxZGEtYjdjNzZmOGUzMGJlIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChXaW5kb3dzKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDktMzBUMTE6NDY6MjQrMDg6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA2LTA5VDExOjA0OjQyKzA4OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIwLTA2LTA5VDExOjA0OjQyKzA4OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MGYwZmE3MzYtZGYyMS0wMDRhLTliNjEtOThjNDRhM2Q0ZGI0IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJmMTkyY2UyLWJjMTMtZGE0MS1iZWFkLWU0YTU1YTFjZWQ3NCIvPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDo2OTA4M2MzZS1mNWI5LTRhY2ItOTFkMy0zMTc4MjQ1NjJjYTQiIHN0RXZ0OndoZW49IjIwMjAtMDYtMDlUMTE6MDA6MjMrMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMS4xIChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDplM2QzZjNiYy0zZTc5LTQ2MmEtYjFkYS1iN2M3NmY4ZTMwYmUiIHN0RXZ0OndoZW49IjIwMjAtMDYtMDlUMTE6MDQ6NDIrMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMS4xIChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8cGhvdG9zaG9wOkRvY3VtZW50QW5jZXN0b3JzPiA8cmRmOkJhZz4gPHJkZjpsaT54bXAuZGlkOmRiMDk4NDMyLTcyMGUtNGMxNS05OWE4LWY2ZjA0ZWE4ZTY1NjwvcmRmOmxpPiA8L3JkZjpCYWc+IDwvcGhvdG9zaG9wOkRvY3VtZW50QW5jZXN0b3JzPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Phg8VE8AAAX6SURBVHic7ZztdeI6EIbf7LkNsCU4JZASvCWQErwlmBKgBCgBSoASoAQoAUqY+0PWIo9GH7ZlhwQ95/jsJtbHWBqPRjNy3ogImczY/PpqATKvQVa0zCRkRctMQla0zCRkRctMQkjRSgA1gAMAYlcNYDGqdD+HurlusMdx19x7RtLJTUT8mhFRTUQ3iuNERHOhnVe+Fs0Y7iLHkEiNd+VpszLKbjrKMyc1T0REFyIqJpQbRGQp2qJDB5wy1NmLXPWAMSSSlWgulHMpi3SdWN16Irn/XebSWTfmsC8HAPMB9X8K5cD6FYAV+93QceX1C6HMGHL/w1Q0l791B/AB4M24/gI4C2WdHb04dwBLAJ9oj+MHgK1QvsbwiU9BOrkN87ZymMSLxyRuhPKv7q8d2HisIuqUZPvEJ+N+RTZdlk6OtMyNIbe4dGrNPXbQ+KXwu7x8trlHlDnCHss5vtaqJZWbhzf26KZodwDXDuXHQm/DzdBLDdkXSUHZ9HNDOmXYwh7LZ1g+Q0TJPTRgW8CeTMl3W+ChBFVEu3oiCf5Y3Rxqsldo+4f65wuAE2QrW0X2IbFp/p0hrV/Kx26sFyU1QbmHKNoM9i71LHQKPCZG/38WaJuXlyigdrqhtuZNOf7wpoLsItrRLFhbsfVi4MtVyrbHJCh3X0WroawFtxSSz1YIHfsGcA57IqXyMQprthFahmKtGn/mfWS9GPjzxPhJz0BQ7hhFK6CWl1NzEZQ14I0v0c2/cyEtc1xwyeHc4xGGWQJYG/fOsBWCyxrrD/FykgXvwwy2sj+D/xsiSu7/OjTo201u0Z5YLkgXeHlpsPlk36F2zBoti2RhNUe0B2jR9O2zInO0x+GONC8XILsIKa3lWETJner0hi8qPNTPiFk++iwxe6FeaKPCFfzYs2/ODrZVOMJvLS+wE92ui1M19YduNqLl7qJoeygL4TLnQ1NYLqSJ5DIU6ObQ63Z5dLsOtMEVkb+5JezJc60EFR4hGT5Zd6jsy5gURr/jyy1EcXly1ZUZqJt7HJ6wLYUyM0+0mfd/cJST+iZSJw/qQB/6KoT6ruQwf44buz9zyNMHfkBBygykQI9TKpwHK4YsnWsA77B9lJg4WYrl5tPRzgJqGb9BWTmfk3+F7cdVkHeg/OwV90lTxbz+IJ3f50NvkCaRO4WPxk1lgWnSUGeoh/P5MQuoGJrvgJ4U2d6g/QwF5F0ul8e3+QhxhPziunhHO9HtuzhbqB36dSq5UyjaFfZE8Z0Zx+cH8fK+N+4MNWCfUIPlspQruJWN71i1fDujb15XUk5AWbku1khb1A+ol+arwhmjy51q1+kL2EmT71MeLnSMg7+HGqzfeMTROD6rJr3VOvNQwnYHpCMyLpZwW5r3Ru5UsbiUJJU7haJVsJXBfDuusJXN5TdJucMZuvsRa8hWyrekryH7XQf2u1DYISMwVNEq2AE7KbbEJ0ZSTkAtV5Iy8N/toLbXUhpMs4d/SZdYImytXIHpjIc+iqbjKBfIUWFp2eKOs457aUs1h0pvuSwdj+Drn7XFcSlQn9zhX7id4yOm2RH+OGJSUDrXGcMS8rKyhVJQUyFKKGWNYdHUPUP24U5QCmJaIynpHqsk66ZuKKSRiUSyaH1TRjyRzflE/K5K8uu07+bajm/QTrtIDnyX+B2PpW2RrVlvUmwGjlDb3NDbfm3KhSZLn8KQdoGatXA/1HeX8tLp3L7W7BnPlMW8cEnllhQtFFPRX8Ysoba5oaApr/sHyrpxp3tr3NN5SFM5uKKsI/u+wp1FkJCWTFfczNWfSYosiPSMXdrl9WPyx2nPwrlyU9/sKsn+uv5G8oeyoYt/DXajuLypmT/VH+weOtaNketG6kPvruOjx8aVyx1LbhAR3ojyX3w0KGBvUEK+ZyaC/NeE2vBg8RXdsgAZB1nRHpSwd5prfJ9z+09NXjof8BOnR6jNRiYB2aIpUoYzMgLZoiluaMeNthj/KPVLkRVNwQfhHd/jU7dvQ146FToYrA9BZiVLTLZomUnIFi0zCVnRMpOQFS0zCf8D40RNdxN4qfgAAAAASUVORK5CYII="/>
     </div>
     <div class="row well well-lg">
         <div class="col-xs-12">
@@ -48,13 +48,13 @@
     </div>
     <div class="footer" style="margin:15px auto;">
         <div class="text-center">
-            Powered by <a target="_blank" href="http://www.harter.cn"><b>山西函拓科技有限公司</b></a> &copy; 2015-{:date('Y')}
-            <a target="_blank" href="http://www.harter.cn">www.harter.cn</a>
+            Powered by <a target="_blank" href="//www.harter.cn"><b>山西函拓科技有限公司</b></a> &copy; 2015-{:date('Y')}
+            <a target="_blank" href="//www.harter.cn">www.harter.cn</a>
         </div>
     </div>
 </div>
-<script src="__ASSETS__plugins/install/jquery.min.js"></script>
-<script src="__ASSETS__plugins/install/bootstrap/js/bootstrap.min.js"></script>
+<script src="__ASSETS__system/js/jquery/jquery.min.js"></script>
+<script src="__ASSETS__system/js/bootstrap/js/bootstrap.min.js"></script>
 <block name="foot"></block>
 </body>
 </html>

@@ -1,10 +1,11 @@
 <?php
+declare(strict_types = 1);
 
 namespace BusyPHP\install;
 
 use BusyPHP\App;
-use BusyPHP\contract\interfaces\PluginCommandInitialize;
 use BusyPHP\helper\FileHelper;
+use BusyPHP\interfaces\PluginCommandInitializeInterface;
 use think\console\Output;
 use think\helper\Str;
 
@@ -14,18 +15,18 @@ use think\helper\Str;
  * @copyright (c) 2015--2021 ShanXi Han Tuo Technology Co.,Ltd. All rights reserved.
  * @version $Id: 2021/10/22 下午上午9:14 Initialize.php $
  */
-class Initialize implements PluginCommandInitialize
+class Initialize implements PluginCommandInitializeInterface
 {
     /**
      * @var App
      */
-    protected $app;
+    protected App $app;
     
     /**
      * Vendor目录
      * @var string
      */
-    protected $dir;
+    protected string $dir;
     
     
     public function __construct(App $app)
@@ -35,11 +36,7 @@ class Initialize implements PluginCommandInitialize
     }
     
     
-    /**
-     * 执行初始化
-     * @param Output $output
-     */
-    public function initialize(Output $output)
+    public function onPluginCommandInitialize(Output $output)
     {
         $lockFile = $this->dir . 'busyphp_install.lock';
         if (is_file($lockFile)) {
@@ -48,9 +45,9 @@ class Initialize implements PluginCommandInitialize
         
         // 生成安装配置
         $random = Str::random(6);
-        $header = PHP_EOL . '// This file is busyphp/install automatically generated at:' . date('Y-m-d H:i:s') . PHP_EOL . 'declare (strict_types = 1);' . PHP_EOL;
+        $header = sprintf("%s// This file is busyphp/install automatically generated at:%s%sdeclare (strict_types = 1);%s", PHP_EOL, date('Y-m-d H:i:s'), PHP_EOL, PHP_EOL);
         $config = var_export(['prefix' => $random], true);
-        FileHelper::write($this->dir . 'busyphp_install.php', "<?php {$header}return {$config};");
+        FileHelper::write(sprintf("%sbusyphp_install.php", $this->dir), "<?php {$header}return {$config};");
         
         $output->info("请访问 http://域名/{$random}/install 进行数据库安装.");
     }

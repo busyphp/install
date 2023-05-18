@@ -3,21 +3,19 @@ declare (strict_types = 1);
 
 namespace BusyPHP\install\app\controller;
 
-use BusyPHP\app\admin\model\admin\group\AdminGroup;
-use BusyPHP\app\admin\model\admin\group\AdminGroupField;
 use BusyPHP\app\admin\model\system\config\SystemConfig;
-use BusyPHP\app\admin\model\system\menu\SystemMenu;
-use BusyPHP\app\admin\model\system\menu\SystemMenuField;
 use BusyPHP\Controller;
 use BusyPHP\helper\FileHelper;
 use BusyPHP\helper\FilterHelper;
 use BusyPHP\app\admin\model\admin\user\AdminUser;
 use DomainException;
-use Exception;
 use think\db\ConnectionInterface;
 use think\exception\FileException;
+use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\facade\Db;
+use think\Response;
+use Throwable;
 
 /**
  * BusyPHP数据库安装
@@ -31,13 +29,13 @@ class InstallController extends Controller
      * 锁文件
      * @var string
      */
-    protected $lockFile;
+    protected string $lockFile;
     
     /**
      * 控制器前缀
      * @var string
      */
-    protected $controllerPrefix;
+    protected string $controllerPrefix;
     
     
     protected function initialize()
@@ -53,7 +51,7 @@ class InstallController extends Controller
         // 配置文件
         $configFile = $this->app->getRootPath() . 'vendor' . DIRECTORY_SEPARATOR . 'busyphp_install.php';
         if (!is_file($configFile)) {
-            throw new FileException("配置文件不存在: {$configFile}");
+            throw new FileException(sprintf("配置文件不存在: %s", $configFile));
         }
         $config = include $configFile;
         $config = $config ?: [];
@@ -61,7 +59,7 @@ class InstallController extends Controller
         if (!$prefix) {
             throw new DomainException("配置文件异常");
         }
-        $this->controllerPrefix = "/{$prefix}/install/";
+        $this->controllerPrefix = "/$prefix/install/";
         
         // 检测是否安装完毕
         if (is_file($this->lockFile) && !in_array($this->request->action(), ['index', 'finish'])) {
@@ -76,34 +74,32 @@ class InstallController extends Controller
     /**
      * @inheritDoc
      */
-    protected function display($template = '', $charset = 'utf-8', $contentType = '', $content = '')
+    protected function display($template = '', $charset = 'utf-8', $contentType = '', $content = '') : Response
     {
-        if (!$template) {
-            // 重新配置模板基本路径
-            $viewConfig              = $this->app->config->get('view');
-            $viewConfig['view_path'] = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR;
-            $this->app->config->set($viewConfig, 'view');
-            
-            // 模板路径
-            $template = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . $this->request->action() . '.html';
-            
-            // 步进值
-            $step  = array_search($this->request->action(), ['index', 'env', 'db', 'finish']);
-            $steps = [];
-            for ($i = 0; $i <= $step; $i++) {
-                if ($i == $step) {
-                    $steps[$i] = ' step-info';
-                } else {
-                    $steps[$i] = ' step-success';
-                }
+        $this->app->config->set([
+            'view_path'      => dirname(__DIR__) . '/view/',
+            'view_depr'      => DIRECTORY_SEPARATOR,
+            'view_suffix'    => 'html',
+            'auto_rule'      => 1,
+            'default_filter' => ''
+        ], 'view');
+        
+        // 步进值
+        $step  = array_search($this->request->action(), ['index', 'env', 'db', 'finish']);
+        $steps = [];
+        for ($i = 0; $i <= $step; $i++) {
+            if ($i == $step) {
+                $steps[$i] = ' step-info';
+            } else {
+                $steps[$i] = ' step-success';
             }
-            
-            $progress = $step * 25 + 25;
-            $this->assign('steps', $steps);
-            $this->assign('progress', $progress);
-            $this->assign('version_name', $this->app->getFrameworkVersion());
-            $this->assign('title', $this->app->getFrameworkName());
         }
+        
+        $progress = $step * 25 + 25;
+        $this->assign('steps', $steps);
+        $this->assign('progress', $progress);
+        $this->assign('version_name', $this->app->getFrameworkVersion());
+        $this->assign('title', $this->app->getFrameworkName());
         
         return parent::display($template, $charset, $contentType, $content);
     }
@@ -112,9 +108,9 @@ class InstallController extends Controller
     /**
      * 检测目录是否可写
      * @param $dir
-     * @return int
+     * @return bool
      */
-    private function isDirWriteable($dir)
+    private function isDirWriteable($dir) : bool
     {
         if (!is_dir($dir)) {
             if (false === mkdir($dir, 0775, true)) {
@@ -161,31 +157,25 @@ class InstallController extends Controller
     
     /**
      * 解析SQL语句
-     * @param string $file
      * @param string $prefix
      * @param array  $search
      * @param array  $replace
      * @return array
      * @throws FileException
      */
-    private function parseSql($file, $prefix, $search = [], $replace = [])
+    private function parseSql(string $prefix, array $search = [], array $replace = []) : array
     {
         // 读取SQL文件
-        if (!is_file($file)) {
-            throw new FileException("安装包不正确, 数据安装脚本缺失: {$file}");
+        $sqlList = include_once __DIR__ . '/../../sql.php';
+        $data    = [];
+        foreach ($sqlList as $sql) {
+            if (preg_match('/CREATE\s+TABLE\s`(busy_[a-z_]+?)`+/i', $sql, $match)) {
+                $data[] = str_replace('`busy_', "`$prefix", sprintf("DROP TABLE IF EXISTS `%s`", $match[1]));
+            }
+            $data[] = str_replace('`busy_', "`$prefix", str_replace($search, $replace, $sql));
         }
         
-        $sql = file_get_contents($file);
-        $sql = str_replace('#__table__#', $prefix, $sql);
-        if ($search && $replace) {
-            $sql = str_replace($search, $replace, $sql);
-        }
-        
-        $sql = str_replace("\r", "\n", $sql);
-        $sql = explode(";\n", $sql);
-        $sql = is_array($sql) ? $sql : [];
-        
-        return $sql;
+        return $data;
     }
     
     
@@ -237,13 +227,13 @@ HTML;
     /**
      * 首页
      */
-    public function index()
+    public function index() : Response
     {
         if (is_file($this->lockFile)) {
             if ($this->app->isDebug()) {
-                return response('您已安装过该系统，请勿重复安装。<br/> 如需重复安装，请手动删除 vendor/busyphp_install.lock 文件')->code(404);
+                throw new HttpException(404, '您已安装过该系统，请勿重复安装。如需重复安装，请手动删除 vendor/busyphp_install.lock 文件');
             } else {
-                return response('', 403);
+                throw new HttpException(403);
             }
         }
         
@@ -254,7 +244,7 @@ HTML;
     /**
      * 环境检测
      */
-    public function env()
+    public function env() : Response
     {
         $ret                          = [];
         $ret['server']['os']['value'] = php_uname();
@@ -272,10 +262,10 @@ HTML;
         
         $ret['php']['version']['value'] = PHP_VERSION;
         $ret['php']['version']['class'] = 'success';
-        if (version_compare(PHP_VERSION, '7.1.0') == -1) {
+        if (version_compare(PHP_VERSION, '8.0.0') == -1) {
             $ret['php']['version']['class']  = 'danger';
             $ret['php']['version']['failed'] = true;
-            $ret['php']['version']['remark'] = 'PHP版本必须为 7.1.0 以上.';
+            $ret['php']['version']['remark'] = 'PHP版本必须为 8.0.0 以上.';
         }
         
         $ret['php']['mysql']['ok'] = function_exists('mysqli_connect');
@@ -442,7 +432,7 @@ HTML;
     /**
      * 配置数据库
      */
-    public function db()
+    public function db() : Response
     {
         // 安装数据库
         if ($this->isPost() && $this->post('action/s') === 'install') {
@@ -468,13 +458,13 @@ HTML;
                 
                 
                 // 分析SQL语句
-                $sql = $this->parseSql(__DIR__ . DIRECTORY_SEPARATOR . '../../install.sql', $db['prefix'], [
+                $sql = $this->parseSql($db['prefix'], [
                     '#__username__#',
                     '#__password__#',
                     '#__create_time__#',
                 ], [
                     $user['username'],
-                    password_hash(AdminUser::createPassword($user['password']), PASSWORD_DEFAULT),
+                    AdminUser::class()::createPassword($user['password']),
                     time(),
                 ]);
                 
@@ -493,19 +483,9 @@ HTML;
                 // 设置配置
                 $this->setConfig($db);
                 
-                // 设置默认用户组
-                $systemMenu          = SystemMenu::init()
-                    ->whereEntity(SystemMenuField::path('#system'))
-                    ->failException(true)
-                    ->findInfo(null, '没有找到系统菜单');
-                $save                = AdminGroupField::init();
-                $save->defaultMenuId = $systemMenu->id;
-                $save->rule          = ",{$systemMenu->id},";
-                AdminGroup::init()->whereEntity(AdminGroupField::id(1))->saveData($save);
-                
                 // 生成缓存
                 SystemConfig::init()->updateCache();
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 if ($mysql instanceof ConnectionInterface) {
                     $mysql->close();
                 }
@@ -532,7 +512,7 @@ HTML;
                     $databases[] = $vo['SCHEMA_NAME'];
                 }
                 $result = ['code' => '200', 'data' => implode(',', $databases)];
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $result = ['code' => '100', 'msg' => $e->getMessage()];
             }
             
@@ -550,7 +530,7 @@ HTML;
     /**
      * 安装完成
      */
-    public function finish()
+    public function finish() : Response
     {
         $this->assign('finish', true);
         
