@@ -13,9 +13,9 @@
 			"email" : "busy.life@qq.com"
 		}
 	],
-	"license"     : "CC-BY-NC-4.0",
+	"license"     : "Apache-2.0",
 	"require"     : {
-		"busyphp/busyphp" : "^6.0.7"
+		"busyphp/busyphp" : "^7.0.0"
 	},
 	"autoload"    : {
 		"psr-4" : {
@@ -26,10 +26,7 @@
 		"preferred-install" : "dist"
 	},
 	"extra"       : {
-		"branch-alias" : {
-			"dev-master" : "1.0.x-dev"
-		},
-		"busyphp"      : {
+		"busyphp" : {
 			"manager"     : {
 				"name" : "BusyPHP安装程序"
 			},
