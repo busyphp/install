@@ -74,10 +74,10 @@ SQL,
     
     <<<SQL
 CREATE TABLE `busy_system_config` (
-    `id`      int(11)     NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    `content` mediumtext  NOT NULL,
-    `name`    varchar(60) NOT NULL DEFAULT '' COMMENT '备注',
-    `type`    varchar(30) NOT NULL DEFAULT '' COMMENT '类型',
+    `id`      varchar(32) NOT NULL COMMENT 'ID',
+    `content` longtext  NOT NULL,
+    `name`    varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
+    `type`    varchar(64) NOT NULL DEFAULT '' COMMENT '类型',
     `system`  tinyint(1)  NOT NULL DEFAULT '0' COMMENT '系统配置',
     `append`  tinyint(1)  NOT NULL DEFAULT '0' COMMENT '是否加入全局配置',
     PRIMARY KEY (`id`)
