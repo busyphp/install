@@ -431,6 +431,7 @@ HTML;
     
     /**
      * 配置数据库
+     * @throws Throwable
      */
     public function db() : Response
     {
@@ -462,10 +463,14 @@ HTML;
                     '#__username__#',
                     '#__password__#',
                     '#__create_time__#',
+                    '\\r',
+                    '\\n',
                 ], [
                     $user['username'],
                     AdminUser::class()::createPassword($user['password']),
                     time(),
+                    '\\\\r',
+                    '\\\\n',
                 ]);
                 
                 // 遍历SQL语句并执行
@@ -490,7 +495,7 @@ HTML;
                     $mysql->close();
                 }
                 
-                return $this->error($e->getMessage());
+                throw $e;
             }
             
             return $this->redirect(url("{$this->controllerPrefix}finish"));

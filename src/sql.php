@@ -74,12 +74,14 @@ SQL,
     
     <<<SQL
 CREATE TABLE `busy_system_config` (
-    `id`      varchar(32) NOT NULL COMMENT 'ID',
-    `content` longtext  NOT NULL,
-    `name`    varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
-    `type`    varchar(64) NOT NULL DEFAULT '' COMMENT '类型',
-    `system`  tinyint(1)  NOT NULL DEFAULT '0' COMMENT '系统配置',
-    `append`  tinyint(1)  NOT NULL DEFAULT '0' COMMENT '是否加入全局配置',
+    `id` varchar(32) NOT NULL COMMENT 'ID',
+    `content` json DEFAULT NULL COMMENT '配置',
+    `name` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
+    `type` varchar(64) NOT NULL DEFAULT '' COMMENT '类型',
+    `system` tinyint(1) NOT NULL DEFAULT '0' COMMENT '系统配置',
+    `append` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否加入全局配置',
+    `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+    `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT ='系统键值对配置表';
 SQL,
@@ -250,10 +252,10 @@ INSERT INTO `busy_admin_user` (`username`, `password`, `group_ids`, `default_gro
 SQL,
     
     <<<SQL
-INSERT INTO `busy_system_config` (`content`, `name`, `type`, `system`, `append`) VALUES
-('a:6:{s:5:\"title\";s:0:\"\";s:7:\"favicon\";s:0:\"\";s:9:\"police_no\";s:0:\"\";s:6:\"icp_no\";s:0:\"\";s:9:\"copyright\";s:0:\"\";s:21:\"img_error_placeholder\";s:0:\"\";}', '系统基本配置', 'public', 1, 1),
-('a:12:{s:5:\"title\";s:0:\"\";s:15:\"logo_horizontal\";s:0:\"\";s:9:\"logo_icon\";s:0:\"\";s:8:\"login_bg\";s:0:\"\";s:6:\"verify\";b:1;s:15:\"multiple_client\";b:1;s:10:\"save_login\";i:15;s:5:\"often\";i:0;s:18:\"login_error_minute\";i:5;s:15:\"login_error_max\";i:5;s:23:\"login_error_lock_minute\";i:60;s:9:\"watermark\";a:17:{s:6:\"status\";s:1:\"0\";s:5:\"width\";s:3:\"300\";s:6:\"height\";s:3:\"150\";s:5:\"alpha\";s:3:\"0.1\";s:5:\"angle\";s:3:\"-15\";s:3:\"txt\";s:68:\"登录人：{username}\r\n内部系统，严禁拍照，截图\r\n{time}\";s:10:\"timeFormat\";s:19:\"YYYY-MM-DD HH:mm:ss\";s:5:\"color\";s:7:\"#000000\";s:8:\"fontSize\";s:2:\"16\";s:4:\"font\";s:0:\"\";s:1:\"x\";s:1:\"0\";s:1:\"y\";s:2:\"60\";s:5:\"image\";s:0:\"\";s:10:\"imageWidth\";s:2:\"60\";s:11:\"imageHeight\";s:2:\"20\";s:6:\"imageX\";s:3:\"100\";s:6:\"imageY\";s:1:\"5\";}}', '后台面板配置', 'admin', 1, 1),
-('a:4:{s:4:\"disk\";s:6:\"public\";s:17:\"dir_generate_type\";s:6:\"hash-3\";s:21:\"remote_ignore_domains\";s:0:\"\";s:7:\"clients\";a:2:{s:5:\"admin\";a:2:{s:16:\"allow_extensions\";s:77:\"jpg, jpeg, png, gif, webp, ico, mp3, mp4, zip, rar, doc, docx, xls, xlsx, ttf\";s:8:\"max_size\";s:6:\"500.00\";}s:4:\"home\";a:2:{s:16:\"allow_extensions\";s:19:\"jpg, jpeg, png, gif\";s:8:\"max_size\";s:5:\"10.00\";}}}', '文件上传配置', 'storage', 1, 0),
-('a:1:{s:7:\"clients\";a:2:{s:5:\"admin\";a:12:{s:5:\"curve\";b:1;s:5:\"noise\";b:1;s:8:\"bg_image\";b:0;s:6:\"length\";s:0:\"\";s:13:\"expire_minute\";s:0:\"\";s:5:\"token\";s:0:\"\";s:8:\"bg_color\";s:0:\"\";s:4:\"type\";s:0:\"\";s:9:\"font_size\";s:0:\"\";s:4:\"font\";s:0:\"\";s:9:\"font_file\";s:0:\"\";s:4:\"code\";s:0:\"\";}s:4:\"home\";a:12:{s:5:\"curve\";b:1;s:5:\"noise\";b:1;s:8:\"bg_image\";b:0;s:6:\"length\";s:0:\"\";s:13:\"expire_minute\";s:0:\"\";s:5:\"token\";s:0:\"\";s:8:\"bg_color\";s:0:\"\";s:4:\"type\";s:0:\"\";s:9:\"font_size\";s:0:\"\";s:4:\"font\";s:0:\"\";s:9:\"font_file\";s:0:\"\";s:4:\"code\";s:0:\"\";}}}', '图片验证码配置', 'captcha', 1, 0)
+INSERT INTO `busy_system_config` (`id`, `content`, `name`, `type`, `system`, `append`, `create_time`, `update_time`) VALUES
+('4c9184f37cff01bcdc32dc486ec36961', '{\"title\": \"\", \"icp_no\": \"\", \"favicon\": \"\", \"copyright\": \"\", \"police_no\": \"\", \"image_placeholder\": \"\", \"avatar_placeholder\": \"\"}', '系统基本配置', 'public', 1, 1, '#__create_time__#', 0),
+('21232f297a57a5a743894a0e4a801fc3', '{\"often\": 0, \"title\": \"\", \"verify\": true, \"login_bg\": \"\", \"logo_icon\": \"\", \"watermark\": {\"x\": \"0\", \"y\": \"60\", \"txt\": \"登录人：{username}\\r\\n内部系统，严禁拍照，截图\\r\\n{time}\", \"font\": \"\", \"alpha\": \"0.1\", \"angle\": \"-15\", \"color\": \"#000000\", \"image\": \"\", \"width\": \"300\", \"height\": \"150\", \"imageX\": \"100\", \"imageY\": \"5\", \"status\": \"0\", \"fontSize\": \"16\", \"imageWidth\": \"60\", \"timeFormat\": \"YYYY-MM-DD HH:mm:ss\", \"imageHeight\": \"20\"}, \"save_login\": 15, \"login_error_max\": 5, \"logo_horizontal\": \"\", \"multiple_client\": true, \"login_error_minute\": 5, \"login_error_lock_minute\": 60}', '后台面板配置', 'admin', 1, 0, '#__create_time__#', 0),
+('ddecebdea58b5f264d27f1f7909bab74', '{\"disk\": \"public\", \"clients\": {\"home\": {\"max_size\": \"10.00\", \"allow_extensions\": \"jpg, jpeg, png, gif\"}, \"admin\": {\"max_size\": \"500.00\", \"allow_extensions\": \"jpg, jpeg, png, gif, webp, ico, mp3, mp4, zip, rar, doc, docx, xls, xlsx, ttf\"}}, \"dir_generate_type\": \"hash-3\", \"remote_ignore_domains\": \"\"}', '系统存储配置', 'storage', 1, 0, '#__create_time__#', 0),
+('70b29c4920daf4e51e8175179027e668', '{\"clients\": {\"home\": {\"code\": \"\", \"font\": \"\", \"type\": \"\", \"curve\": true, \"noise\": true, \"token\": \"\", \"length\": \"\", \"bg_color\": \"\", \"bg_image\": false, \"font_file\": \"\", \"font_size\": \"\", \"expire_minute\": \"\"}, \"admin\": {\"code\": \"\", \"font\": \"\", \"type\": \"\", \"curve\": true, \"noise\": true, \"token\": \"\", \"length\": \"\", \"bg_color\": \"\", \"bg_image\": false, \"font_file\": \"\", \"font_size\": \"\", \"expire_minute\": \"\"}}}', '图片验证码配置', 'captcha', 1, 0, '#__create_time__#', 0)
 SQL
 ];
