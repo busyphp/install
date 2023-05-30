@@ -42,11 +42,10 @@ CREATE TABLE `busy_admin_user` (
     `update_time`      int(11)      NOT NULL DEFAULT '0' COMMENT '更新时间',
     `checked`          tinyint(1)   NOT NULL DEFAULT '0' COMMENT '是否审核',
     `system`           tinyint(1)   NOT NULL DEFAULT '0' COMMENT '是否系统管理员',
-    `token`            varchar(32)  NOT NULL DEFAULT '' COMMENT '密钥',
     `error_total`      int(11)      NOT NULL DEFAULT '0' COMMENT '密码错误次数统计',
     `error_time`       int(11)      NOT NULL DEFAULT '0' COMMENT '密码错误开始时间',
     `error_release`    int(11)      NOT NULL DEFAULT '0' COMMENT '密码错误锁定释放时间',
-    `theme`            json                  DEFAULT NULL COMMENT '主题配置',
+    `theme`            json         DEFAULT NULL COMMENT '主题配置',
     `remark`           varchar(500) NOT NULL DEFAULT '' COMMENT '简介',
     PRIMARY KEY (`id`),
     KEY `username` (`username`),
@@ -240,6 +239,27 @@ CREATE TABLE `busy_system_task`
     KEY `status` (`status`),
     KEY `plan_time` (`plan_time`),
     KEY `scan` (`status`, `plan_time`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT ='系统任务表'
+SQL,
+
+    <<<SQL
+CREATE TABLE `busy_system_token`
+(
+    `id`          varchar(32) NOT NULL COMMENT 'ID',
+    `user_type`   tinyint(1)  NOT NULL DEFAULT '0' COMMENT '用户类型',
+    `user_id`     int(11)     NOT NULL DEFAULT '0' COMMENT '用户ID',
+    `token`       varchar(64) NOT NULL DEFAULT '' COMMENT '密钥',
+    `type`        tinyint(1)  NOT NULL DEFAULT '0' COMMENT '登录类型',
+    `create_time` int(11)     NOT NULL DEFAULT '0' COMMENT '创建时间',
+    `login_time`  int(11)     NOT NULL DEFAULT '0' COMMENT '本次登录时间',
+    `login_ip`    varchar(64) NOT NULL DEFAULT '' COMMENT '本次登录IP',
+    `last_time`   int(11)     NOT NULL DEFAULT '0' COMMENT '上次登录时间',
+    `last_ip`     varchar(64) NOT NULL DEFAULT '' COMMENT '上次登录IP',
+    `login_total` int(11)     NOT NULL DEFAULT '0' COMMENT '登录次数',
+    PRIMARY KEY (`id`),
+    KEY `user_id` (`user_id`),
+    KEY `type` (`type`),
+    KEY `user_type` (`user_type`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT ='系统任务表'
 SQL,
     
