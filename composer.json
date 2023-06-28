@@ -15,7 +15,7 @@
 	],
 	"license"     : "Apache-2.0",
 	"require"     : {
-		"busyphp/busyphp" : "^7.0.0"
+		"busyphp/busyphp" : "^7.0.3"
 	},
 	"autoload"    : {
 		"psr-4" : {

@@ -57,17 +57,19 @@ SQL,
     <<<SQL
 CREATE TABLE `busy_admin_message` (
     `id`          int(11)      NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    `user_id`     int(11)      NOT NULL DEFAULT '0' COMMENT '管理员ID',
+    `user_id`     int(11)      NOT NULL DEFAULT '0' COMMENT '用户ID',
+    `user_type`   tinyint(1)   NOT NULL DEFAULT '0' COMMENT '用户类型',
+    `type`        tinyint(1)   NOT NULL DEFAULT '0' COMMENT '消息类型',
+    `business`    varchar(32)  NOT NULL DEFAULT '' COMMENT '业务参数',
     `create_time` int(11)      NOT NULL DEFAULT '0' COMMENT '创建时间',
     `read`        tinyint(1)   NOT NULL DEFAULT '0' COMMENT '是否已读',
     `read_time`   int(11)      NOT NULL DEFAULT '0' COMMENT '阅读时间',
-    `content`     varchar(255) NOT NULL DEFAULT '' COMMENT '消息内容',
-    `description` varchar(255) NOT NULL DEFAULT '' COMMENT '消息备注',
-    `url`         varchar(255) NOT NULL DEFAULT '' COMMENT '操作链接',
-    `icon`        varchar(255) NOT NULL DEFAULT '' COMMENT '图标',
-    `attrs`       json                  DEFAULT NULL COMMENT '自定义标签属性',
+    `content`     json         DEFAULT NULL COMMENT '消息内容',
+    `subject`     varchar(255) NOT NULL DEFAULT '' COMMENT '消息描述',
     PRIMARY KEY (`id`),
-    KEY `user_id` (`user_id`)
+    KEY `user_id` (`user_id`),
+    KEY `user_type` (`user_type`),
+    KEY `type` (`type`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT ='后台系统消息表';
 SQL,
     
